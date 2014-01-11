@@ -19,4 +19,12 @@ Vagrant.configure("2") do |config|
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = false
   end
+
+  # docker provision
+  config.vm.provision "docker" do |d|
+    d.pull_images ["ubuntu"]
+    d.run "ubuntu", cmd: "apt-get update"
+    d.run "ubuntu", cmd: "apt-get upgrade -y"
+    d.run "ubuntu", cmd: "apt-get install -y openssh-server nginx supervisor"
+  end
 end
